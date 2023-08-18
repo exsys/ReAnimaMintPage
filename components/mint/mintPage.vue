@@ -27,7 +27,9 @@
 import { useOnboard } from '@web3-onboard/vue';
 import { ethers } from 'ethers';
 import { reAnimaPassContractAddress } from "@/data/constants";
-import { reAnimaPassABI } from "@/data/abis";
+import { reAnimaPassABI } from '@/data/abis';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     name: "mintPage",
@@ -50,8 +52,13 @@ export default {
                 const ethersProvider = new ethers.BrowserProvider(this.connectedWallet.provider);
                 const signer = await ethersProvider.getSigner();
                 const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, signer);
-
                 const tx = await reAnimaPassContract.mint();
+            } else {
+                toast.warning("Connect your wallet!", {
+                    autoClose: 7000,
+                    position: toast.POSITION.TOP_CENTER,
+                    pauseOnHover: false,
+                });
             }
         }
     }
