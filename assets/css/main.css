@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html, #__nuxt, #__layout {
+    height: 100%;
+}
+
+body, html {
+    overflow-x: hidden;
+    position: relative;
+}
+
+body {
+    background-color: #090509;
+    color: white;
+}
+
+.main-button {
+    filter: drop-shadow(0 0 3px #3813cf);
+    background-color: #0C002D;
+    transition: filter 150ms ease-in;
+}
+.main-button:hover {
+    filter: drop-shadow(0 0 8px #394eed);
+}
