@@ -42,7 +42,6 @@
 <script>
 import { web3Onboard } from '@/utils/wallet';
 import { useOnboard } from '@web3-onboard/vue';
-import { ethers } from 'ethers';
 import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -54,7 +53,6 @@ export default {
         return {
             ethersProvider: null,
             headerMenuActive: false,
-            toastId: null,
         }
     },
     watch: {
@@ -85,13 +83,17 @@ export default {
     },
     methods: {
         async connWallet() {
-            await this.connect();
+            try {
+                await this.connect();
+            } catch (error) {
+                console.log(error);
+            }
             this.checkCorrectNetwork();
         },
         checkCorrectNetwork() {
             if (this.connectedWallet) {
                 if (this.connectedChain.id !== mainChainIdHex) {
-                    this.toastId = toast.warning(changeNetwork, {
+                    toast.warning(changeNetwork, {
                         autoClose: 7000,
                         position: toast.POSITION.TOP_CENTER,
                         pauseOnHover: false,

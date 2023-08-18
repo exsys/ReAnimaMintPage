@@ -52,7 +52,17 @@ export default {
                 const ethersProvider = new ethers.BrowserProvider(this.connectedWallet.provider);
                 const signer = await ethersProvider.getSigner();
                 const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, signer);
-                const tx = await reAnimaPassContract.mint();
+                try {
+                    const tx = await reAnimaPassContract.mint();
+                } catch (error) {
+                    if (error.info.error.code === 4001) {
+                        toast.error("User denied transaction!", {
+                            autoClose: 7000,
+                            position: toast.POSITION.TOP_CENTER,
+                            pauseOnHover: false,
+                        });
+                    }
+                }
             } else {
                 toast.warning("Connect your wallet!", {
                     autoClose: 7000,
