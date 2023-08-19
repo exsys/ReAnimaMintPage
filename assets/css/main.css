@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html, #__nuxt, #__layout {
+body,
+html,
+#__nuxt,
+#__layout {
     height: 100%;
 }
 
-body, html {
+body,
+html {
     overflow-x: hidden;
     position: relative;
 }
@@ -21,6 +25,27 @@ body {
     background-color: #0C002D;
     transition: filter 150ms ease-in;
 }
+
 .main-button:hover {
     filter: drop-shadow(0 0 8px #394eed);
+}
+
+.fadeInFromLeft,
+.fadeInFromRight {
+    transition: all 350ms ease-in-out;
+    opacity: 0;
+}
+
+.fadeInFromLeft {
+    transform: translateX(-130px);
+}
+
+.fadeInFromRight {
+    transform: translateX(130px);
+}
+
+.fadeInFromLeft.visible,
+.fadeInFromRight.visible {
+    opacity: 1 !important;
+    transform: translateX(0);
 }
