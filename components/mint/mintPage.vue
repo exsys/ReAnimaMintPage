@@ -18,7 +18,8 @@
                     Mint
                 </button>
             </div>
-            <img src="~/assets/images/akirina.png" alt="anima" class="absolute lg:w-[20%] lg:top-[10%] lg:right-[15%]">
+            <img src="~/assets/images/akirina.png" alt="anima" class="absolute sm:w-[50%] lg:w-[30%] lg:top-[15%] lg:right-[10%]
+            xl:w-[20%] xl:top-[17%] xl:right-[15%]">
         </div>
     </div>
 </template>
