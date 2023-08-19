@@ -49,6 +49,7 @@ import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
+
 const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
 
 export default {
@@ -59,7 +60,9 @@ export default {
         }
     },
     watch: {
+        // watch current chain and send a popup if wrong network
         connectedChain: async function (newVal, oldVal) {
+            if (!newVal) return;
             if (newVal.id !== mainChainIdHex) {
                 this.toastId = toast.warning(changeNetwork, {
                     autoClose: 7000,
@@ -80,8 +83,11 @@ export default {
     },
     async mounted() {
         if (this.alreadyConnectedWallets.length) {
-            await this.connect();
-            this.checkCorrectNetwork();
+            try {
+                await this.connect();
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     methods: {
@@ -91,19 +97,6 @@ export default {
                 await this.connect();
             } catch (error) {
                 console.log(error);
-            }
-            this.checkCorrectNetwork();
-        },
-        checkCorrectNetwork() {
-            if (this.connectedWallet) {
-                if (this.connectedChain.id !== mainChainIdHex) {
-                    toast.warning(changeNetwork, {
-                        autoClose: 7000,
-                        position: toast.POSITION.TOP_CENTER,
-                        pauseOnHover: false,
-                        closeOnClick: false,
-                    });
-                }
             }
         },
     }

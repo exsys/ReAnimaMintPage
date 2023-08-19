@@ -29,8 +29,12 @@ import { useOnboard } from '@web3-onboard/vue';
 import { ethers } from 'ethers';
 import { reAnimaPassContractAddress } from "@/data/constants";
 import { reAnimaPassABI } from '@/data/contractAbis';
+import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import changeNetwork from "@/components/toastify/changeNetwork";
+
+const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
 
 export default {
     name: "mintPage",
@@ -40,8 +44,8 @@ export default {
         }
     },
     setup() {
-        const { connectedWallet, wallets, alreadyConnectedWallets } = useOnboard();
-        return { connectedWallet, wallets, alreadyConnectedWallets };
+        const { connectedWallet, wallets, alreadyConnectedWallets, connectedChain } = useOnboard();
+        return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
     methods: {
         changeAmount(byAmount) {
@@ -49,6 +53,8 @@ export default {
             this.amount += byAmount;
         },
         async mintPass() {
+            const wrongNetwork = this.checkCorrectNetwork();
+            if (wrongNetwork) return;
             if (this.connectedWallet) {
                 const ethersProvider = new ethers.BrowserProvider(this.connectedWallet.provider);
                 const signer = await ethersProvider.getSigner();
@@ -70,6 +76,19 @@ export default {
                     position: toast.POSITION.TOP_CENTER,
                     pauseOnHover: false,
                 });
+            }
+        },
+        checkCorrectNetwork() {
+            if (this.connectedWallet) {
+                if (this.connectedChain.id !== mainChainIdHex) {
+                    toast.warning(changeNetwork, {
+                        autoClose: 7000,
+                        position: toast.POSITION.TOP_CENTER,
+                        pauseOnHover: false,
+                        closeOnClick: false,
+                    });
+                    return true;
+                }
             }
         }
     }
