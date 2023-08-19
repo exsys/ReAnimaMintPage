@@ -7,26 +7,26 @@
                 </div>
 
                 <!-- mobile header -->
-                <div class="inline-block lg:hidden cursor-pointer z-20 p-1.5" @click="headerMenuActive = !headerMenuActive">
-                    <div class="menuIconLine" :class="headerMenuActive ? '!bg-white line1' : ''"></div>
-                    <div class="menuIconLine" :class="headerMenuActive ? '!bg-white line2' : ''"></div>
-                    <div class="menuIconLine" :class="headerMenuActive ? '!bg-white line3' : ''"></div>
+                <div class="inline-block lg:hidden cursor-pointer z-30 p-1.5" @click="headerMenuActive = !headerMenuActive">
+                    <div class="menuIconLine" :class="headerMenuActive ? 'line1' : ''"></div>
+                    <div class="menuIconLine" :class="headerMenuActive ? 'line2' : ''"></div>
+                    <div class="menuIconLine" :class="headerMenuActive ? 'line3' : ''"></div>
                 </div>
-                <div :class="headerMenuActive ? 'active' : ''" class="menu absolute items-center
-                justify-center bg-black w-screen h-screen inset-0 px-10 py-24 lg:hidden">
+                <div :class="headerMenuActive ? 'active' : ''" class="menu fixed items-center bg-black z-20
+                justify-center w-screen h-screen inset-0 px-10 py-24 lg:hidden">
                     <nav class="flex flex-col gap-4 text-white" aria-label="main">
-                        <NuxtLink class="cursor-pointer">Home</NuxtLink>
-                        <NuxtLink class="cursor-pointer">Mint</NuxtLink>
-                        <NuxtLink class="cursor-pointer">About</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">About</NuxtLink>
                     </nav>
                 </div>
 
                 <!-- non-mobile header -->
                 <div class="hidden lg:flex gap-20 items-center">
                     <nav class="flex gap-12">
-                        <NuxtLink class="cursor-pointer">Home</NuxtLink>
-                        <NuxtLink class="cursor-pointer">Mint</NuxtLink>
-                        <NuxtLink class="cursor-pointer">About</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
+                        <NuxtLink class="cursor-pointer" to="/">About</NuxtLink>
                     </nav>
 
                     <button class="main-button py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
@@ -115,7 +115,7 @@ export default {
 .menuIconLine {
     width: 2.25rem;
     height: 3px;
-    background-color: black;
+    background-color: white;
     border-radius: 0.5rem;
     transition: all 0.3s;
 }
