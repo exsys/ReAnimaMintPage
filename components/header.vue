@@ -29,9 +29,12 @@
                         <NuxtLink class="cursor-pointer">About</NuxtLink>
                     </nav>
 
-                    <button class="main-button py-2 px-6 rounded-xl" @click="connWallet">
-                        {{ connectedWallet ? `${connectedWallet.accounts[0].address.substring(0, 6)}...`
-                            : "Connect Wallet" }}
+                    <button class="main-button py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
+                        {{ connectedWallet ?
+                            `${connectedWallet.accounts[0].address.substring(0, 7)}...`
+                            :
+                            "Connect Wallet"
+                        }}
                     </button>
                 </div>
             </div>
@@ -83,6 +86,7 @@ export default {
     },
     methods: {
         async connWallet() {
+            if (this.connectedWallet) return;
             try {
                 await this.connect();
             } catch (error) {

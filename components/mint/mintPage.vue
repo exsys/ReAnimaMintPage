@@ -27,7 +27,7 @@
 import { useOnboard } from '@web3-onboard/vue';
 import { ethers } from 'ethers';
 import { reAnimaPassContractAddress } from "@/data/constants";
-import { reAnimaPassABI } from '@/data/abis';
+import { reAnimaPassABI } from '@/data/contractAbis';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 

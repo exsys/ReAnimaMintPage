@@ -1,10 +1,10 @@
 <template>
     <div class="h-full">
-        <div class="flex flex-col-reverse justify-end items-center lg:flex-row lg:justify-center h-full w-4/5 xl:w-3/4 mx-auto">
-            <div class="lg:max-w-[50%]">
-                <img src="~/assets/images/isabell.png" alt="anima" class="lg:w-3/4">
+        <div class="flex flex-col-reverse justify-end items-center lg:flex-row lg:justify-center h-full w-4/5 xl:w-3/4 mx-auto gap-10">
+            <div class="sm:w-[70%] lg:w-[40%] xl:mr-16">
+                <img src="~/assets/images/isabell.png" alt="anima" class="w-full">
             </div>
-            <div class="flex flex-col text-center mb-10 lg:text-left xl:max-w-[35%]">
+            <div class="flex flex-col text-center mb-10 lg:text-left lg:max-w-[50%] xl:max-w-[35%]">
                 <h1 class="text-4xl mb-6">About RE:Anima</h1>
                 <div class="">
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti quod fuga ab praesentium dolores nulla
