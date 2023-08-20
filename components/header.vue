@@ -2,9 +2,9 @@
     <header>
         <div class="w-full absolute top-0 py-6">
             <div class="flex items-center justify-between w-3/4 mx-auto">
-                <div>
+                <NuxtLink class="cursor-pointer">
                     Logo
-                </div>
+                </NuxtLink>
 
                 <!-- mobile header -->
                 <div class="inline-block lg:hidden cursor-pointer z-30 p-1.5" @click="headerMenuActive = !headerMenuActive">
