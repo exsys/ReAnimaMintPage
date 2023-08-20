@@ -49,7 +49,7 @@ import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
-//import { merkleTree } from "@/utils/whitelistChecker";
+import { merkleTree, checkValidity } from "@/utils/whitelistChecker";
 
 const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
 
@@ -109,14 +109,7 @@ export default {
                 });
                 return;
             }
-            /*for (const [i, v] of merkleTree.entries()) {
-                if (v[0] === this.walletAddress) {
-                    this.eligible = true;
-                    this.eligibilityChecked = true;
-                    return;
-                }
-            }*/
-            this.eligible = false;
+            this.eligible = checkValidity(this.walletAddress);
             this.eligibilityChecked = true;
         },
         checkCorrectNetwork() {
