@@ -1,10 +1,11 @@
 <template>
     <Header />
-    <div class="pt-24 h-full">
+    <div class="pt-24">
         <mintPage />
         <section1 />
         <section2 />
     </div>
+    <Footer />
 </template>
 
 <script>

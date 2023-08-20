@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full">
+    <div class="h-screen">
         <div class="flex flex-col-reverse justify-end items-center lg:flex-row lg:justify-center
             h-full w-4/5 xl:w-3/4 mx-auto gap-10">
             <div ref="target" class="fadeInFromLeft sm:w-[70%] lg:w-[40%] xl:mr-16" :class="isVisible ? 'visible' : ''">
