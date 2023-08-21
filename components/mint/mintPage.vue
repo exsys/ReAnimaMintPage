@@ -49,7 +49,7 @@ import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
-import { merkleTree, checkValidity } from "@/utils/whitelistChecker";
+import { checkValidity } from "@/utils/whitelistChecker";
 
 const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
 

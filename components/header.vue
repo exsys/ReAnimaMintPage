@@ -3,7 +3,9 @@
         <div class="w-full absolute top-0 py-6">
             <div class="flex items-center justify-between w-3/4 mx-auto">
                 <NuxtLink class="cursor-pointer">
-                    Logo
+                    <div class="w-40 lg:w-52">
+                        <img src="~/assets/images/reanima-logo.png" alt="logo">
+                    </div>
                 </NuxtLink>
 
                 <!-- mobile header -->
