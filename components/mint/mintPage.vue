@@ -1,11 +1,11 @@
 <template>
     <div class="flex justify-center items-start h-screen relative mt-16 lg:mt-0 lg:items-center">
-        <div class="flex justify-center w-full">
+        <div class="flex justify-center w-full lg:-mt-32">
             <div class="w-[94%] lg:w-max flex flex-col items-center justify-center text-center 
-            px-4 py-10 bg-gray-500/50 lg:bg-transparent rounded-xl z-10 border border-slate-500 lg:border-none">
+            px-4 py-10 bg-gray-700/80 lg:bg-transparent rounded-xl z-10 border-2 border-slate-500 lg:border-none">
                 <h1 class="text-5xl mb-8 font-medium">RE:Anima Pass</h1>
                 <h2 class="text-2xl">Some random info text</h2>
-                <div v-if="!mintActive" class="mt-6 flex flex-col w-full">
+                <div v-if="!whitelistMintActive && !publicMintActive && !mintEnded && !walletHasMinted" class="mt-6 flex flex-col w-full">
                     <div class="mb-6">
                         <h3 class="text-2xl font-medium">Time left:</h3>
                         <div class="text-3xl">
@@ -28,10 +28,36 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="mintActive" class="mt-10">
+                <div v-if="whitelistMintActive && !mintEnded && !walletHasMinted" class="mt-10">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-medium">Mint active:</h3>
+                        <div class="text-3xl">
+                            {{ days.toString().padStart(2, "0") }} :
+                            {{ hours.toString().padStart(2, "0") }} :
+                            {{ minutes.toString().padStart(2, "0") }} :
+                            {{ seconds.toString().padStart(2, "0") }}
+                        </div>
+                    </div>
                     <button class="w-48 font-medium main-button rounded-md py-2 px-10" @click="mintPass">
                         Mint
                     </button>
+                </div>
+
+                <div v-if="publicMintActive && !mintEnded && !walletHasMinted" class="mt-10">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-medium">Public Mint active</h3>
+                    </div>
+                    <button class="w-48 font-medium main-button rounded-md py-2 px-10" @click="mintPass">
+                        Mint
+                    </button>
+                </div>
+
+                <div v-if="mintEnded && !walletHasMinted" class="mt-6">
+                    <h2 class="text-3xl">Mint has ended!</h2>
+                </div>
+
+                <div v-if="walletHasMinted" class="mt-6">
+                    <h2 class="text-3xl">Congrats! You minted a Pass!</h2>
                 </div>
             </div>
             <img src="~/assets/images/akirina.png" alt="anima" class="absolute sm:w-[50%] lg:w-[30%] lg:top-[15%] lg:right-[10%]
@@ -44,7 +70,7 @@
 import { useOnboard } from '@web3-onboard/vue';
 import { ethers } from 'ethers';
 import { reAnimaPassContractAddress } from "@/data/constants";
-import { reAnimaPassABI } from '@/data/contractAbis';
+import { reAnimaPassABI } from '@/data/abis';
 import { mainChainId } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -62,9 +88,14 @@ export default {
             hours: 0,
             minutes: 0,
             seconds: 0,
-            mintTimestamp: 1693393200000,
-            timeLeft: 0,
-            mintActive: false,
+            whitelistStartTimestamp: 1693393200000,
+            whitelistEndTimestamp: 1693414800000,
+            timeLeftUntilWhitelistMint: 0,
+            timeLeftUntilPublicMint: 0,
+            whitelistMintActive: false,
+            publicMintActive: false,
+            mintEnded: false,
+            walletHasMinted: false,
             eligible: false,
             eligibilityChecked: false,
             walletAddress: "",
@@ -72,24 +103,41 @@ export default {
         }
     },
     watch: {
-        timeLeft: {
+        timeLeftUntilWhitelistMint: {
             handler() {
-                if (this.timeLeft > 0) {
+                if (this.timeLeftUntilWhitelistMint > 0) {
                     setTimeout(() => {
                         this.updateTimeLeft();
                     }, 1000);
                 }
             },
             immediate: true,
-        }
+        },
+        timeLeftUntilPublicMint: {
+            handler() {
+                if (this.timeLeftUntilPublicMint > 0) {
+                    setTimeout(() => {
+                        this.updateTimeLeft();
+                    }, 1000);
+                }
+            },
+            immediate: true,
+        },
     },
     setup() {
         const { connectedWallet, wallets, alreadyConnectedWallets, connectedChain } = useOnboard();
         return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
-    mounted() {
-        if (Date.now() >= this.mintTimestamp) this.mintActive = true;
+    async mounted() {
+        const walletMinted = Number(await reAnimaViewOnlyContract.balanceOf(this.connectedWallet.accounts[0].address));
+        if (walletMinted) this.walletHasMinted = true;
+        const teamMinted = Number(await reAnimaViewOnlyContract.teamMinted());
+        const whiteListMinted = Number(await reAnimaViewOnlyContract.whiteListMinted());
+        if (teamMinted + whiteListMinted >= 2000) this.mintEnded = true;
+        if (Date.now() >= this.whitelistStartTimestamp && Date.now() < this.whitelistEndTimestamp) this.whitelistMintActive = true;
+        if (Date.now() >= this.whitelistEndTimestamp) this.publicMintActive = true;
         this.updateTimeLeft();
+        // TODO: check amount minted every 7s
     },
     methods: {
         changeAmount(byAmount) {
@@ -105,6 +153,8 @@ export default {
                 const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.testnet, reAnimaPassABI, signer);
                 try {
                     const tx = await reAnimaPassContract.mint();
+                    const balance = Number(await reAnimaPassABI.balanceOf(this.connectedWallet.accounts[0].address));
+                    if (balance > 0) this.walletHasMinted = true;
                 } catch (error) {
                     if (error.info.error.code === 4001) {
                         toast.error("User denied transaction!", {
@@ -174,12 +224,21 @@ export default {
         },
         updateTimeLeft() {
             const now = Date.now();
-            const timeLeftInMs = this.mintTimestamp - now;
-            this.timeLeft = timeLeftInMs;
-            this.days = Math.floor(timeLeftInMs / 1000 / 60 / 60 / 24);
-            this.hours = Math.floor((timeLeftInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            this.minutes = Math.floor((timeLeftInMs % (1000 * 60 * 60)) / (1000 * 60));
-            this.seconds = Math.floor((timeLeftInMs % (1000 * 60)) / 1000);
+            let timeLeft = 0;
+            if (!this.whitelistMintActive) {
+                timeLeft = this.whitelistStartTimestamp - now;
+                this.timeLeftUntilWhitelistMint = timeLeft;
+            } else {
+                timeLeft = this.whitelistEndTimestamp - now;
+                this.timeLeftUntilPublicMint = timeLeft;
+            }
+
+            if (timeLeft > 0) {
+                this.days = Math.floor(timeLeft / 1000 / 60 / 60 / 24);
+                this.hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                this.minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                this.seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            }
         },
     }
 }
