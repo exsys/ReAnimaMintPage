@@ -129,8 +129,6 @@ export default {
         return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
     async mounted() {
-        const walletMinted = Number(await reAnimaViewOnlyContract.balanceOf(this.connectedWallet.accounts[0].address));
-        if (walletMinted) this.walletHasMinted = true;
         const teamMinted = Number(await reAnimaViewOnlyContract.teamMinted());
         const whiteListMinted = Number(await reAnimaViewOnlyContract.whiteListMinted());
         if (teamMinted + whiteListMinted >= 2000) this.mintEnded = true;
