@@ -64,6 +64,7 @@ export default {
     watch: {
         // watch current chain and send a popup if wrong network
         connectedChain: async function (newVal, oldVal) {
+            return;
             if (!newVal) return;
             if (newVal.id !== mainChainIdHex) {
                 this.toastId = toast.warning(changeNetwork, {

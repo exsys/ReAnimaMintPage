@@ -42,14 +42,14 @@ import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
 const mainChainIdHex = `0x${mainChainId.toString(16)}`;
-const viewOnlyProvider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum");
-const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, viewOnlyProvider);
+const viewOnlyProvider = new ethers.JsonRpcProvider("https://arbitrum-goerli.public.blastapi.io");
+const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.testnet, reAnimaPassABI, viewOnlyProvider);
 
 export default {
     name: "mintPage",
     data() {
         return {
-            mintActive: false,
+            mintActive: true,
             eligible: false,
             eligibilityChecked: false,
             walletAddress: "",
@@ -66,12 +66,12 @@ export default {
             this.amount += byAmount;
         },
         async mintPass() {
-            const wrongNetwork = this.checkCorrectNetwork();
-            if (wrongNetwork) return;
+            //const wrongNetwork = this.checkCorrectNetwork();
+            //if (wrongNetwork) return;
             if (this.connectedWallet) {
                 const ethersProvider = new ethers.BrowserProvider(this.connectedWallet.provider);
                 const signer = await ethersProvider.getSigner();
-                const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, signer);
+                const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.testnet, reAnimaPassABI, signer);
                 try {
                     const tx = await reAnimaPassContract.mint();
                 } catch (error) {
@@ -103,8 +103,10 @@ export default {
             }
             try {
                 this.eligible = await reAnimaViewOnlyContract.whiteList(this.walletAddress);
+                console.log(this.eligible);
                 this.eligibilityChecked = true;
             } catch (error) {
+                console.log(error);
                 toast.error("Something went wrong", {
                     autoClose: 7000,
                     position: toast.POSITION.TOP_CENTER,
