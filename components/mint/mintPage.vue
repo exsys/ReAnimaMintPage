@@ -2,10 +2,19 @@
     <div class="flex justify-center items-start h-screen relative mt-16 lg:mt-0 lg:items-center">
         <div class="flex justify-center w-full">
             <div class="w-[94%] lg:w-max flex flex-col items-center justify-center text-center 
-            px-4 py-10 bg-black/20 lg:bg-transparent rounded-xl z-10">
+            px-4 py-10 bg-gray-500/50 lg:bg-transparent rounded-xl z-10 border border-slate-500 lg:border-none">
                 <h1 class="text-5xl mb-8 font-medium">RE:Anima Pass</h1>
                 <h2 class="text-2xl">Some random info text</h2>
-                <div v-if="!mintActive" class="mt-10 flex flex-col w-full">
+                <div v-if="!mintActive" class="mt-6 flex flex-col w-full">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-medium">Time left:</h3>
+                        <div class="text-3xl">
+                            {{ days.toString().padStart(2, "0") }} :
+                            {{ hours.toString().padStart(2, "0") }} :
+                            {{ minutes.toString().padStart(2, "0") }} :
+                            {{ seconds.toString().padStart(2, "0") }}
+                        </div>
+                    </div>
                     <h3 class="text-2xl">Check eligibility</h3>
                     <input v-model="walletAddress" type="text" name=""
                         class="my-6 px-3 py-2 outline-0 text-black rounded-md text-xl">
@@ -49,16 +58,37 @@ export default {
     name: "mintPage",
     data() {
         return {
-            mintActive: true,
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            mintTimestamp: 1693393200000,
+            timeLeft: 0,
+            mintActive: false,
             eligible: false,
             eligibilityChecked: false,
             walletAddress: "",
             amount: 0,
         }
     },
+    watch: {
+        timeLeft: {
+            handler() {
+                if (this.timeLeft > 0) {
+                    setTimeout(() => {
+                        this.updateTimeLeft();
+                    }, 1000);
+                }
+            },
+            immediate: true,
+        }
+    },
     setup() {
         const { connectedWallet, wallets, alreadyConnectedWallets, connectedChain } = useOnboard();
         return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
+    },
+    mounted() {
+        this.updateTimeLeft();
     },
     methods: {
         changeAmount(byAmount) {
@@ -140,7 +170,16 @@ export default {
                     return true;
                 }
             }
-        }
+        },
+        updateTimeLeft() {
+            const now = Date.now();
+            const timeLeftInMs = this.mintTimestamp - now;
+            this.timeLeft = timeLeftInMs;
+            this.days = Math.floor(timeLeftInMs / 1000 / 60 / 60 / 24);
+            this.hours = Math.floor((timeLeftInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            this.minutes = Math.floor((timeLeftInMs % (1000 * 60 * 60)) / (1000 * 60));
+            this.seconds = Math.floor((timeLeftInMs % (1000 * 60)) / 1000);
+        },
     }
 }
 </script>
