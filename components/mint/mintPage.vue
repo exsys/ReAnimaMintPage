@@ -40,15 +40,16 @@ import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
-import { checkValidity } from "@/utils/whitelistChecker";
 
 const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
+const viewOnlyProvider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum");
+const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, viewOnlyProvider);
 
 export default {
     name: "mintPage",
     data() {
         return {
-            mintActive: true,
+            mintActive: false,
             eligible: false,
             eligibilityChecked: false,
             walletAddress: "",
@@ -90,7 +91,7 @@ export default {
                 });
             }
         },
-        checkEligibility() {
+        async checkEligibility() {
             const validAddress = ethers.isAddress(this.walletAddress);
             if (!validAddress) {
                 toast.error("Not a valid wallet address!", {
@@ -100,8 +101,16 @@ export default {
                 });
                 return;
             }
-            this.eligible = checkValidity(this.walletAddress);
-            this.eligibilityChecked = true;
+            try {
+                this.eligible = await reAnimaViewOnlyContract.whiteList(this.walletAddress);
+                this.eligibilityChecked = true;
+            } catch (error) {
+                toast.error("Something went wrong", {
+                    autoClose: 7000,
+                    position: toast.POSITION.TOP_CENTER,
+                    pauseOnHover: false,
+                });
+            }
         },
         checkCorrectNetwork() {
             if (this.connectedWallet) {
