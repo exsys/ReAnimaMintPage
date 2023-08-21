@@ -19,17 +19,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="mintActive">
-                    <div class="flex justify-center my-10 text-2xl gap-4">
-                        <button class="w-10 h-10 main-button rounded-md" @click="changeAmount(-1)">
-                            -
-                        </button>
-                        <input v-model="amount" class="text-center w-1/3 bg-transparent">
-                        <button class="w-10 h-10 main-button rounded-md" @click="changeAmount(1)">
-                            +
-                        </button>
-                    </div>
-                    <button class="main-button rounded-md py-2 px-10" @click="mintPass">
+                <div v-if="mintActive" class="mt-10">
+                    <button class="w-48 font-medium main-button rounded-md py-2 px-10" @click="mintPass">
                         Mint
                     </button>
                 </div>
@@ -57,7 +48,7 @@ export default {
     name: "mintPage",
     data() {
         return {
-            mintActive: false,
+            mintActive: true,
             eligible: false,
             eligibilityChecked: false,
             walletAddress: "",
