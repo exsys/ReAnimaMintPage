@@ -1,5 +1,7 @@
+export const mainChainId = 42161;
+export const testnetChainId = 421613;
+
 export const networkSettings = {
-    mainChainId: 42161,
     // arbitrum mainnet
     42161: {
         rpcUrl: "https://api.zan.top/node/v1/arb/one/public",

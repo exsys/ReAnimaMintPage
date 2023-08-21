@@ -36,12 +36,12 @@ import { useOnboard } from '@web3-onboard/vue';
 import { ethers } from 'ethers';
 import { reAnimaPassContractAddress } from "@/data/constants";
 import { reAnimaPassABI } from '@/data/contractAbis';
-import { networkSettings } from '@/data/constants';
+import { mainChainId } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
-const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
+const mainChainIdHex = `0x${mainChainId.toString(16)}`;
 const viewOnlyProvider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum");
 const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.main, reAnimaPassABI, viewOnlyProvider);
 

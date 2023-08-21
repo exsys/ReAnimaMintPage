@@ -47,12 +47,12 @@
 <script>
 import { web3Onboard } from '@/utils/wallet';
 import { useOnboard } from '@web3-onboard/vue';
-import { networkSettings } from '@/data/constants';
+import { mainChainId } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
-const mainChainIdHex = `0x${networkSettings.mainChainId.toString(16)}`;
+const mainChainIdHex = `0x${mainChainId.toString(16)}`;
 
 export default {
     data() {

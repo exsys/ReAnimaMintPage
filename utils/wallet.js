@@ -2,19 +2,18 @@
 import { init } from '@web3-onboard/vue';
 import injectedModule from '@web3-onboard/injected-wallets';
 import walletConnectModule from "@web3-onboard/walletconnect";
-import { networkSettings } from "~/data/constants";
+import { networkSettings, mainChainId } from "~/data/constants";
 
-const chainId = networkSettings.mainChainId;
 const injected = injectedModule();
 const walletConnect = walletConnectModule({
-    projectId: "432edbd9307fd5a59c13815fff6f158c",
-    requiredChains: [chainId],
+    projectId: "432edbd9307fd5a59c13815fff6f158c", // change to own wallet connect project id
+    requiredChains: [mainChainId],
 });
-const rpcUrl = networkSettings[chainId].rpcUrl;
+const rpcUrl = networkSettings[mainChainId].rpcUrl;
 
 export const web3Onboard = init({
     wallets: [injected, walletConnect],
     chains: [
-        networkSettings[chainId].chainInfo
+        networkSettings[mainChainId].chainInfo
     ]
 });
