@@ -88,6 +88,7 @@ export default {
         return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
     mounted() {
+        if (Date.now() >= this.mintTimestamp) this.mintActive = true;
         this.updateTimeLeft();
     },
     methods: {
