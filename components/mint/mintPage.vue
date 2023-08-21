@@ -12,7 +12,7 @@
                     <button class="main-button py-2 px-6 rounded-md" @click="checkEligibility">Check</button>
                     <div v-if="eligibilityChecked" class="mt-6 text-2xl">
                         <div v-if="eligible" class="text-[#198754]">
-                            Congrats! You are whitelisted 
+                            Congrats! You are whitelisted
                         </div>
                         <div v-if="!eligible" class="text-[#ff3333]">
                             This wallet is not whitelisted
@@ -81,7 +81,21 @@ export default {
                             position: toast.POSITION.TOP_CENTER,
                             pauseOnHover: false,
                         });
+                        return;
                     }
+                    if (error.info.error.code === -32603) {
+                        toast.error("Not whitelisted!", {
+                            autoClose: 7000,
+                            position: toast.POSITION.TOP_CENTER,
+                            pauseOnHover: false,
+                        });
+                        return;
+                    }
+                    toast.error("Something went wrong!", {
+                        autoClose: 7000,
+                        position: toast.POSITION.TOP_CENTER,
+                        pauseOnHover: false,
+                    });
                 }
             } else {
                 toast.warning("Connect your wallet!", {
