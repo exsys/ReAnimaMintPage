@@ -45,12 +45,12 @@
 <script>
 import { web3Onboard } from '@/utils/wallet'; // don't remove
 import { useOnboard } from '@web3-onboard/vue';
-import { mainChainId } from '@/data/constants';
+import { networkSettings } from '@/data/constants';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
-const mainChainIdHex = `0x${mainChainId.toString(16)}`;
+const chainIdHex = networkSettings.testnet.chainInfo.id; // TODO: change to mainnet
 
 export default {
     data() {
@@ -62,9 +62,8 @@ export default {
     watch: {
         // watch current chain and send a popup if wrong network
         connectedChain: async function (newVal, oldVal) {
-            return;
             if (!newVal) return;
-            if (newVal.id !== mainChainIdHex) {
+            if (newVal.id !== chainIdHex) {
                 this.toastId = toast.warning(changeNetwork, {
                     autoClose: 7000,
                     position: toast.POSITION.TOP_CENTER,
@@ -79,7 +78,7 @@ export default {
     setup() {
         const { connectWallet, setChain, connectedWallet, wallets, alreadyConnectedWallets, connectedChain } = useOnboard();
         const connect = async () => connectWallet();
-        const set = async () => setChain({ wallet: 'MetaMask', chainId: mainChainIdHex });
+        const set = async () => setChain({ wallet: 'MetaMask', chainId: chainIdHex });
         return { connect, set, connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
     async mounted() {

@@ -4,13 +4,13 @@
 
 <script>
 import { useOnboard } from '@web3-onboard/vue';
-import { mainChainId } from '@/data/constants';
+import { networkSettings } from '@/data/constants';
 
 export default {
     name: "changeNetwork",
     setup() {
         const { setChain, connectedChain } = useOnboard();
-        const set = async () => setChain({ wallet: 'MetaMask', chainId: `0x${mainChainId.toString(16)}` });
+        const set = async () => setChain({ wallet: 'MetaMask', chainId: networkSettings.testnet.chainInfo.id }); // TODO: change to mainnet
         return { set, connectedChain };
     },
     methods: {

@@ -1,9 +1,9 @@
-export const mainChainId = 42161;
+export const mainnetChainId = 42161;
 export const testnetChainId = 421613;
 
 export const networkSettings = {
     // arbitrum mainnet
-    42161: {
+    mainnet: {
         rpcUrl: "https://api.zan.top/node/v1/arb/one/public",
         chainInfo: {
             id: "0xa4b1",
@@ -12,8 +12,8 @@ export const networkSettings = {
         }
     },
     // arbitrum testnet (goerli)
-    421613: {
-        rpcUrl: "https://arbitrum-goerli.public.blastapi.io",
+    testnet: {
+        rpcUrl: "https://arbitrum-goerli.blockpi.network/v1/rpc/public",
         chainInfo: {
             id: "0x66eed",
             token: "AGOR",
@@ -23,6 +23,6 @@ export const networkSettings = {
 };
 
 export const reAnimaPassContractAddress = {
-    main: "0x740Df9ccE9D7448AC7Bd481ea157934188EF4361",
+    mainnet: "0x740Df9ccE9D7448AC7Bd481ea157934188EF4361",
     testnet: "0xa0707dAb631c384785Fb7fb560922705abafB48B",
 };
