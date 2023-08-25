@@ -13,7 +13,7 @@ const walletConnect = walletConnectModule({
 export const web3Onboard = init({
     wallets: [injected, walletConnect],
     chains: [
-        networkSettings[mainnetChainId].chainInfo,
-        networkSettings[testnetChainId].chainInfo,
+        networkSettings.mainnet.chainInfo,
+        networkSettings.testnet.chainInfo,
     ]
 });
