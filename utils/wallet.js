@@ -6,7 +6,7 @@ import { networkSettings, mainnetChainId, testnetChainId } from "~/data/constant
 
 const injected = injectedModule();
 const walletConnect = walletConnectModule({
-    projectId: "432edbd9307fd5a59c13815fff6f158c", // change to own wallet connect project id
+    projectId: "432edbd9307fd5a59c13815fff6f158c", // TODO: change to own wallet connect project id
     requiredChains: [mainnetChainId, testnetChainId],
 });
 
