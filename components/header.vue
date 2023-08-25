@@ -19,7 +19,6 @@
                     <nav class="flex flex-col gap-4 text-white" aria-label="main">
                         <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
                         <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
-                        <NuxtLink class="cursor-pointer" to="/">About</NuxtLink>
                     </nav>
                 </div>
 
@@ -28,7 +27,6 @@
                     <nav class="flex gap-12">
                         <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
                         <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
-                        <NuxtLink class="cursor-pointer" to="/">About</NuxtLink>
                     </nav>
 
                     <button class="main-button py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
@@ -45,7 +43,7 @@
 </template>
 
 <script>
-import { web3Onboard } from '@/utils/wallet';
+import { web3Onboard } from '@/utils/wallet'; // don't remove
 import { useOnboard } from '@web3-onboard/vue';
 import { mainChainId } from '@/data/constants';
 import { toast } from 'vue3-toastify';
