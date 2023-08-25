@@ -147,6 +147,7 @@ export default {
         return { connectedWallet, wallets, alreadyConnectedWallets, connectedChain };
     },
     async mounted() {
+        // start timer and track token id if mint has startes
         if (Date.now() >= this.whitelistStartTimestamp && Date.now() < this.whitelistEndTimestamp) this.whitelistMintActive = true;
         if (Date.now() >= this.whitelistEndTimestamp) this.publicMintActive = true;
         this.updateTimeLeft();
@@ -221,6 +222,7 @@ export default {
         },
         async getInitalAmountMinted() {
             if (this.whitelistMintActive || this.publicMintActive) {
+                // query blocks until we find one where a pass was minted
                 try {
                     var currentBlock = await viewOnlyProvider.getBlockNumber();
                     var startBlock = currentBlock - 1000;
@@ -228,7 +230,7 @@ export default {
                 } catch (error) {
                     console.log(error);
                 }
-    
+
                 let latestTransferEvent;
                 while (!latestTransferEvent) {
                     try {
@@ -261,7 +263,7 @@ export default {
                             if (latestTokenId >= this.maxAmount) {
                                 this.mintEnded = true;
                                 return; // if all tokens have minted out tracking will stop
-                            }    
+                            }
                         }
                         setTimeout(this.startTrackingLatestTokenId, 10000); // track token id every 10 seconds
                     } catch (error) {
@@ -287,9 +289,11 @@ export default {
             const now = Date.now();
             let timeLeft = 0;
             if (!this.whitelistMintActive) {
+                // timer for whitelist mint
                 timeLeft = this.whitelistStartTimestamp - now;
                 this.timeLeftUntilWhitelistMint = timeLeft;
             } else {
+                // timer for public mint
                 timeLeft = this.whitelistEndTimestamp - now;
                 this.timeLeftUntilPublicMint = timeLeft;
             }
