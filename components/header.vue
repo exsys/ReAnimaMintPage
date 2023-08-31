@@ -1,35 +1,15 @@
 <template>
-    <header>
-        <div class="w-full absolute top-0 py-6">
-            <div class="flex items-center justify-between w-3/4 mx-auto">
+    <header class="z-10 h-24 absolute top-0 w-full">
+        <div class="py-6">
+            <div class="flex items-center justify-between mx-8 lg:mx-auto lg:w-3/4">
                 <NuxtLink class="cursor-pointer">
-                    <div class="w-40 lg:w-52">
+                    <div class="w-32 lg:w-52">
                         <img src="~/assets/images/reanima-logo.png" alt="logo">
                     </div>
                 </NuxtLink>
 
-                <!-- mobile header -->
-                <div class="inline-block lg:hidden cursor-pointer z-30 p-1.5" @click="headerMenuActive = !headerMenuActive">
-                    <div class="menuIconLine" :class="headerMenuActive ? 'line1' : ''"></div>
-                    <div class="menuIconLine" :class="headerMenuActive ? 'line2' : ''"></div>
-                    <div class="menuIconLine" :class="headerMenuActive ? 'line3' : ''"></div>
-                </div>
-                <div :class="headerMenuActive ? 'active' : ''" class="menu fixed items-center bg-black z-20
-                justify-center w-screen h-screen inset-0 px-10 py-24 lg:hidden">
-                    <nav class="flex flex-col gap-4 text-white" aria-label="main">
-                        <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
-                        <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
-                    </nav>
-                </div>
-
-                <!-- non-mobile header -->
-                <div class="hidden lg:flex gap-20 items-center">
-                    <nav class="flex gap-12">
-                        <NuxtLink class="cursor-pointer" to="/">Home</NuxtLink>
-                        <NuxtLink class="cursor-pointer" to="/">Mint</NuxtLink>
-                    </nav>
-
-                    <button class="main-button py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
+                <div class="flex gap-20 items-center">
+                    <button class="main-button font-medium py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
                         {{ connectedWallet ?
                             `${connectedWallet.accounts[0].address.substring(0, 7)}...`
                             :
