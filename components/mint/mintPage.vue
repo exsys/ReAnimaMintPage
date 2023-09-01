@@ -332,7 +332,7 @@ input[type=number] {
 }
 
 .bg-img-main {
-    background-image: url("bg-mint.png");
+    background-image: url("/assets/images/bg-mint.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: unset;
@@ -340,7 +340,7 @@ input[type=number] {
 
 @media (max-width: 480px) {
     .bg-img-main {
-        background-image: url("bg-mint-sm.png");
+        background-image: url("/assets/images/bg-mint-sm.png");
         background-position: 13% 100%;
     }
 }
