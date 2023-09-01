@@ -3,13 +3,13 @@
         <div class="py-6">
             <div class="flex items-center justify-between mx-8 lg:mx-auto lg:w-3/4">
                 <NuxtLink class="cursor-pointer">
-                    <div class="w-32 lg:w-52">
+                    <div class="w-32 md:w-44 lg:w-52">
                         <img src="~/assets/images/reanima-logo.png" alt="logo">
                     </div>
                 </NuxtLink>
 
                 <div class="flex gap-20 items-center">
-                    <button class="main-button font-medium py-2 px-6 rounded-xl min-w-[155px]" @click="connWallet">
+                    <button class="main-button uppercase py-2 px-6 rounded-xl min-w-[155px] tracking-wide" @click="connWallet">
                         {{ connectedWallet ?
                             `${connectedWallet.accounts[0].address.substring(0, 7)}...`
                             :

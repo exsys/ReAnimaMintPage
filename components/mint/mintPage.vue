@@ -1,74 +1,84 @@
 <template>
-    <div class="flex justify-center items-start h-screen relative mt-16 lg:mt-0 lg:items-center">
-        <div class="flex justify-center w-full lg:-mt-32">
-            <div class="w-[94%] lg:w-max flex flex-col items-center justify-center text-center 
-            px-4 py-10 bg-gray-700/80 lg:bg-transparent rounded-xl z-10 border-2 border-slate-500 lg:border-none">
-                <h1 class="text-5xl mb-8 font-medium">RE:Anima Pass</h1>
-                <h2 class="text-2xl">Some random info text</h2>
+    <div class="flex items-start min-h-screen max-h-full relative px-4 pt-32 lg:mt-0 lg:items-center bg-img-main">
+        <div class="mint-container flex w-full md:w-[90%] lg:w-[65%] mt-24 xl:w-[50%] 2xl:w-[45%] md:mt-32 lg:mt-24 xl:mt-10 2xl:mt-28">
+            <div class="flex flex-col items-center text-center py-10 lg:px-20 xl:px-12 2xl:px-20">
+                <h1 class="text-5xl mb-8 font-medium hidden">Re: Anima Pass</h1>
+                <h2 class="text-2xl uppercase tracking-wide leading-8 text-black-main opacity-50">
+                    Your access pass to Re:Anima's fantastical realms of exploration and adventure
+                </h2>
                 <div v-if="!whitelistMintActive && !publicMintActive && !mintEnded && !walletHasMinted"
-                    class="mt-6 flex flex-col w-full">
+                    class="mt-8 flex flex-col w-full text-black-main">
                     <div class="mb-6">
-                        <h3 class="text-2xl font-medium">Time left:</h3>
-                        <div class="text-3xl">
+                        <h3 class="text-4xl font-bold mb-2">Countdown</h3>
+                        <div class="text-5xl font-bold">
                             {{ days.toString().padStart(2, "0") }} :
                             {{ hours.toString().padStart(2, "0") }} :
                             {{ minutes.toString().padStart(2, "0") }} :
                             {{ seconds.toString().padStart(2, "0") }}
                         </div>
                     </div>
-                    <h3 class="text-2xl">Check eligibility</h3>
-                    <input v-model="walletAddress" type="text" name=""
-                        class="my-6 px-3 py-2 outline-0 text-black rounded-md text-xl">
-                    <button class="main-button py-2 px-6 rounded-md" @click="checkEligibility">Check</button>
-                    <div v-if="eligibilityChecked" class="mt-6 text-2xl">
-                        <div v-if="eligible" class="text-[#198754]">
-                            Congrats! You are whitelisted
+                    <h3 class="text-2xl font-medium">Check eligibility</h3>
+                    <div class="mt-4 text-2xl" :class="eligibilityChecked ? 'visible' : 'invisible'">
+                        <div v-if="eligible" class="text-black-main opacity-50 text-2xl font-bold uppercase">
+                            Congratulations! You are whitelisted
                         </div>
-                        <div v-if="!eligible" class="text-[#ff3333]">
-                            This wallet is not whitelisted
+                        <div v-if="!eligible" class="text-black-main opacity-50 text-2xl font-bold uppercase">
+                            Unfortunately, you are not whitelisted
                         </div>
+                    </div>
+                    <div class="flex flex-col w-full max-w-[400px] mx-auto">
+                        <input v-model="walletAddress" type="text" name=""
+                            class="my-6 px-3 py-2 outline-0 text-black rounded-md text-xl drop-shadow-lg">
+                        <button class="main-button py-2 px-6 rounded-md text-white font-bold text-xl uppercase" 
+                        @click="checkEligibility">
+                            Check
+                        </button>
                     </div>
                 </div>
                 <div v-if="whitelistMintActive && !mintEnded && !walletHasMinted" class="mt-10">
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-medium">Mint active:</h3>
-                        <div class="text-3xl">
+                    <div class="mb-16">
+                        <h3 class="text-4xl font-bold mb-2 text-black-main">Time Left</h3>
+                        <div class="text-5xl text-black-main font-bold">
                             {{ days.toString().padStart(2, "0") }} :
                             {{ hours.toString().padStart(2, "0") }} :
                             {{ minutes.toString().padStart(2, "0") }} :
                             {{ seconds.toString().padStart(2, "0") }}
                         </div>
                     </div>
-                    <button class="w-48 font-medium main-button rounded-md py-2 px-10" @click="mintPass">
-                        Mint
+                    <button class="mint-button whitelisted" @click="mintPass">
+                        MINT
                     </button>
-                    <div class="mt-6">
-                        <h3 class="text-3xl">{{ amountMinted }}/{{ maxAmount }}</h3>
-                    </div>
                 </div>
 
                 <div v-if="publicMintActive && !mintEnded && !walletHasMinted" class="mt-10">
                     <div class="mb-6">
-                        <h3 class="text-2xl font-medium">Public Mint active</h3>
+                        <h3 class="text-3xl font-bold mb-2 text-black-main">Public Mint active</h3>
                     </div>
-                    <button class="w-48 font-medium main-button rounded-md py-2 px-10" @click="mintPass">
+                    <button class="mint-button" @click="mintPass">
                         Mint
                     </button>
-                    <div class="mt-6">
-                        <h3 class="text-3xl">{{ amountMinted }}/{{ maxAmount }}</h3>
-                    </div>
                 </div>
 
                 <div v-if="mintEnded && !walletHasMinted" class="mt-6">
-                    <h2 class="text-3xl">Mint has ended!</h2>
+                    <h2 class="text-5xl font-bold uppercase text-black-main">Mint has ended!</h2>
                 </div>
 
-                <div v-if="walletHasMinted" class="mt-6">
-                    <h2 class="text-3xl">Congrats! You minted a Pass!</h2>
+                <div v-if="walletHasMinted" class="mt-8">
+                    <div class="mb-10">
+                        <h3 class="text-4xl font-bold mb-2 text-black-main">Time Left</h3>
+                        <div class="text-5xl text-black-main font-bold">
+                            {{ days.toString().padStart(2, "0") }} :
+                            {{ hours.toString().padStart(2, "0") }} :
+                            {{ minutes.toString().padStart(2, "0") }} :
+                            {{ seconds.toString().padStart(2, "0") }}
+                        </div>
+                    </div>
+                    <h2 class="text-3xl mb-8 font-medium text-black-main">You have minted!</h2>
+                    <button class="mint-button" @click="mintPass">
+                        Mint
+                    </button>
                 </div>
             </div>
-            <img src="~/assets/images/akirina.png" alt="anima" class="absolute sm:w-[50%] lg:w-[30%] lg:top-[15%] lg:right-[10%]
-            xl:w-[20%] xl:top-[17%] xl:right-[15%]">
         </div>
     </div>
 </template>
@@ -151,11 +161,12 @@ export default {
         if (Date.now() >= this.whitelistStartTimestamp && Date.now() < this.whitelistEndTimestamp) this.whitelistMintActive = true;
         if (Date.now() >= this.whitelistEndTimestamp) this.publicMintActive = true;
         this.updateTimeLeft();
-        await this.getInitalAmountMinted();
-        this.startTrackingLatestTokenId();
+        //await this.getInitalAmountMinted();
+        //this.startTrackingLatestTokenId();
     },
     methods: {
         async mintPass() {
+            //if (!whitelisted) return;
             const wrongNetwork = this.checkCorrectNetwork();
             if (wrongNetwork) return;
             if (this.connectedWallet) {
@@ -209,7 +220,6 @@ export default {
             }
             try {
                 this.eligible = await reAnimaViewOnlyContract.whiteList(this.walletAddress);
-                console.log(this.eligible);
                 this.eligibilityChecked = true;
             } catch (error) {
                 console.log(error);
@@ -319,5 +329,38 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
+}
+
+.bg-img-main {
+    background-image: url("bg-mint.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: unset;
+}
+
+@media (max-width: 480px) {
+    .bg-img-main {
+        background-image: url("bg-mint-sm.png");
+        background-position: 13% 100%;
+    }
+}
+
+@media ((width: 820px) and (height: 1180px)) or ((width: 768px) and (height: 1024px)) {
+    .bg-img-main {
+        background-position: 4% 100%;
+    }
+    .mint-container {
+        margin-top: 16rem;
+        width: 95%;
+    }
+}
+@media (width: 912px) and (height: 1368px) {
+    .bg-img-main {
+        background-position: 6% 100%;
+    }
+    .mint-container {
+        margin-top: 22rem;
+        width: 99%;
+    }
 }
 </style>

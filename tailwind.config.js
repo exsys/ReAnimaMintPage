@@ -13,6 +13,12 @@ module.exports = {
       colors: {
         main: {
           button: "#0C002D"
+        },
+        gray: {
+          main: "#787C88",
+        },
+        black: {
+          main: "#222126"
         }
       },
       dropShadow: {

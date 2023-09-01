@@ -1,11 +1,10 @@
 <template>
-    <Header />
-    <div class="pt-24">
+    <link href="https://db.onlinewebfonts.com/c/05b52ebc23e412e038a4fde8dae0e464?family=HelveticaNeue-BoldCond" rel="stylesheet">
+    <div class="helvetica-font">
+        <Header />
         <mintPage />
-        <section1 />
-        <section2 />
+        <!-- <Footer /> -->
     </div>
-    <Footer />
 </template>
 
 <script>
@@ -22,3 +21,9 @@ export default {
     },
 }
 </script>
+
+<style>
+.helvetica-font {
+    font-family: "HelveticaNeue-BoldCond";
+}
+</style>
