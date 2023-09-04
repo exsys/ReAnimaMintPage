@@ -92,9 +92,9 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
-const chainIdHex = networkSettings.testnet.chainInfo.id; // TODO: change to mainnet
-const viewOnlyProvider = new ethers.JsonRpcProvider(networkSettings.testnet.rpcUrl); // TODO: change to mainnet
-const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.testnet, reAnimaPassABI, viewOnlyProvider); // TODO: change to mainnet
+const chainIdHex = networkSettings.mainnet.chainInfo.id;
+const viewOnlyProvider = new ethers.JsonRpcProvider(networkSettings.mainnet.rpcUrl);
+const reAnimaViewOnlyContract = new ethers.Contract(reAnimaPassContractAddress.mainnet, reAnimaPassABI, viewOnlyProvider);
 const amountMintedFilter = reAnimaViewOnlyContract.filters.Transfer(null, null);
 
 export default {
@@ -172,7 +172,7 @@ export default {
             if (this.connectedWallet) {
                 const ethersProvider = new ethers.BrowserProvider(this.connectedWallet.provider);
                 const signer = await ethersProvider.getSigner();
-                const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.testnet, reAnimaPassABI, signer); // TODO: change to mainnet
+                const reAnimaPassContract = new ethers.Contract(reAnimaPassContractAddress.mainnet, reAnimaPassABI, signer);
                 try {
                     const tx = await reAnimaPassContract.mint();
                     const balance = Number(await reAnimaViewOnlyContract.balanceOf(this.connectedWallet.accounts[0].address));

@@ -10,7 +10,7 @@ export default {
     name: "changeNetwork",
     setup() {
         const { setChain, connectedChain } = useOnboard();
-        const set = async () => setChain({ wallet: 'MetaMask', chainId: networkSettings.testnet.chainInfo.id }); // TODO: change to mainnet
+        const set = async () => setChain({ wallet: 'MetaMask', chainId: networkSettings.mainnet.chainInfo.id });
         return { set, connectedChain };
     },
     methods: {

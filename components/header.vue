@@ -30,7 +30,7 @@ import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import changeNetwork from "@/components/toastify/changeNetwork";
 
-const chainIdHex = networkSettings.testnet.chainInfo.id; // TODO: change to mainnet
+const chainIdHex = networkSettings.mainnet.chainInfo.id;
 
 export default {
     data() {

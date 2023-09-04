@@ -4,7 +4,7 @@ export const testnetChainId = 421613;
 export const networkSettings = {
     // arbitrum mainnet
     mainnet: {
-        rpcUrl: "https://api.zan.top/node/v1/arb/one/public",
+        rpcUrl: "https://arb1.arbitrum.io/rpc",
         chainInfo: {
             id: "0xa4b1",
             token: "ETH",
